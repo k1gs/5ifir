@@ -51,3 +51,10 @@ Move all files from the archive to the root of the SD card
 
 Переместить все файлы из архива в корень сд карты
 
+
+
+# Feedback. Обратная связь со мной.
+
+[Telegram](https://t.me/k1gsss)
+
+Discord - _keggs
