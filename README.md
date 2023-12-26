@@ -1,5 +1,6 @@
 ###5IFIR(pifir)###
 
+[Телеграмм чат](https://t.me/+J7u71r2HJA4wZDky)
 
 ![](https://i.imgur.com/xf7rVd8.png)
 
