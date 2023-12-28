@@ -4,7 +4,7 @@
 
 ![](https://i.imgur.com/xf7rVd8.png)
 
-# 5IFIR(pifir) is a solution designed for convenient and uncomplicated use of 4IFIR without its overlay (for seven-stock).
+# 5IFIR(pifir) is a solution designed for convenient and uncomplicated use of 4IFIR without its overlay (for semi-stock).
 
 5IFIR adds many fixes for a more pleasant user-experience.
 
@@ -12,7 +12,7 @@
 
 * Updated DBI
 
-* Updated 4IFIR WIZARD and Ultrahand out of the box
+* Updated 4IFIR WIZARD and Uberhand out of the box
 
 * Availability of high frequencies as in 4IFIR 
 
@@ -36,7 +36,7 @@ Move all files from the archive to the root of the SD card
 
 * Обновленный ДБИ
 
-* Обновленный 4IFIR WIZARD и Ultrahand из коробки
+* Обновленный 4IFIR WIZARD и Uberhand из коробки
 
 * Наличие высоких частот как в 4IFIR 
 
