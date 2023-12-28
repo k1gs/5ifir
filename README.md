@@ -58,6 +58,6 @@ Move all files from the archive to the root of the SD card
 
 [Telegram](https://t.me/k1gsss)
 
-[Телеграмм чат](https://t.me/+J7u71r2HJA4wZDky)
+
 
 Discord - _keggs
