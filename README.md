@@ -1,6 +1,6 @@
-###5IFIR(pifir)###
 
-[Телеграмм чат](https://t.me/+J7u71r2HJA4wZDky)
+
+
 
 ![](https://i.imgur.com/xf7rVd8.png)
 
@@ -57,5 +57,7 @@ Move all files from the archive to the root of the SD card
 # Feedback. Обратная связь со мной.
 
 [Telegram](https://t.me/k1gsss)
+
+[Телеграмм чат](https://t.me/+J7u71r2HJA4wZDky)
 
 Discord - _keggs
