@@ -16,7 +16,7 @@
 
 * Availability of high frequencies as in 4IFIR 
 
-* Full Asist and 4IFIR kip support
+* Full Assist and 4IFIR kip support
 
 * Removed sys-clk bug that set max CPU frequency for a specific usage scenario: Handled 768 mhz - Docked - 978 mhz. Now max frequencies depend on your kip:) - bug of the first version of 5IFIR
 
