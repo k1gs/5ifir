@@ -1,0 +1,43 @@
+[
+    {
+        "name": "`Low Freq"
+    },
+    {
+        "name": "1868 mHz",
+        "hex": "00841C"
+    },
+    {
+        "name": "1996 mHz",
+        "hex": "00781E"
+    },
+    {
+        "name": "2131 mHz",
+        "hex": "008520"
+    },
+    {
+        "name": "`Medium Freqs"
+    },
+    {
+        "name": "2265 mHz",
+        "hex": "009222"
+    },
+    {
+        "name": "2400 mHz",
+        "hex": "009F24"
+    },
+    {
+        "name": "2534 mHz",
+        "hex": "00AC26"
+    },
+    {
+        "name": "`High freqs"
+    },
+    {
+        "name": "2665 mHz",
+        "hex": "80AC28"
+    },
+    {
+        "name": "2803 mHz",
+        "hex": "00C62A"
+    }
+]

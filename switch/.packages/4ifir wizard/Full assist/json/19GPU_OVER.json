@@ -1,0 +1,17 @@
+[
+    {
+        "name": "`GPU Overvolt"
+    },
+    {
+        "name": "900 mV",
+        "hex": "8403"
+    },
+    {
+        "name": "1000 mV - default",
+        "hex": "E803"
+    },
+    {
+        "name": "1220 mV - sport",
+        "hex": "4C04"
+    }
+]

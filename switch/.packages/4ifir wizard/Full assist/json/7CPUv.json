@@ -1,0 +1,21 @@
+[
+    {
+        "name": "`CPU MinVolt"
+    },
+    {
+        "name": "620 - Default",
+        "hex": "6C02"
+    },
+    {
+        "name": "590",
+        "hex": "4E02"
+    },
+    {
+        "name": "560 - For RAM 2131, 2265 mHz",
+        "hex": "3002"
+    },
+    {
+        "name": "530 - For RAM 1868 mHz",
+        "hex": "1202"
+    }
+]
