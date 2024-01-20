@@ -1,4 +1,4 @@
-
+[Телеграмм чат\chat](https://t.me/pifirsurc)  | [Поддержка](https://github.com/k1gs/5ifir?tab=readme-ov-file#поддержка)  | [Скачать](https://github.com/k1gs/5ifir/releases)
 ![](https://i.imgur.com/xf7rVd8.png)
 
 # 5IFIR[^1] is a solution designed for convenient and uncomplicated use of 4IFIR without its overlay (for semi-stock).
