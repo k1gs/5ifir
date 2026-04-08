@@ -1,0 +1,148 @@
+# Kirby's Dream Buffet 1.0.0/1.0.0a
+# BID: 82AF4E16BBC0BEC8
+# Thanks to Hazerou for finding offsets
+# Game was patched to use triple buffer, and to avoid flickering with some 2D transparent elements, I have disabled transparency in them.
+# Issue with flickering exists because game is hardcoded to only register 2 textures into texturepool and 2 samplers into samplerpool for framebuffers.
+
+unsafeCheck: true
+
+MASTER_WRITE:
+  # Remove double buffer
+  -
+    type: asm_a64
+    main_offset: 0x861208
+    instructions: [
+      [mov, w9, 3]
+    ]
+  # Fix helper functions to properly copy third buffer address to stack
+  -
+    type: asm_a64
+    main_offset: 0x8612DC
+    instructions: [
+      [mov, w2, 3]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x8654D8
+    instructions: [
+      [sub, sp, sp, 0x60],
+      [stp, x29, x30, [sp, 0x20]],
+      [add, x29, sp, 0x20],
+      [str, x23, [sp, 0x30]],
+      [stp, x22, x21, [sp, 0x40]],
+      [stp, x20, x19, [sp, 0x50]],
+      [stp, xzr, xzr, [sp, 0x10]]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x86550C
+    instructions: [
+      [mov, w2, 3]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x8655B8
+    instructions: [
+      [stp, x8, x10, [sp]],
+      [bl, 0x85f028],
+      [ldp, x20, x19, [sp, 0x50]],
+      [ldr, x23, [sp, 0x30]],
+      [ldp, x22, x21, [sp, 0x40]],
+      [ldp, x29, x30, [sp, 0x20]],
+      [add, sp, sp, 0x60]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x793298
+    instructions: [
+      [sub, sp, sp, 0x50],
+      [stp, x29, x30, [sp, 0x20]],
+      [add, x29, sp, 0x20],
+      [stp, x22, x21, [sp, 0x30]],
+      [stp, x20, x19, [sp, 0x40]],
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x7932E0
+    instructions: [
+      [stp, xzr, xzr, [sp, 0x10]]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x7932EC
+    instructions: [
+      [mov, w2, 3]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x793310
+    instructions: [
+      [ldp, x20, x19, [sp, 0x40]],
+      [ldp, x22, x21, [sp, 0x30]],
+      [ldp, x29, x30, [sp, 0x20]],
+      [add, sp, sp, 0x50]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x876B00
+    instructions: [
+      [add, x1, sp, 0x10],
+      [add, x23, sp, 0x10]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x876B14
+    instructions: [
+      [mov, w2, 3],
+      [stp, xzr, xzr, [sp, 0x10]]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x8CFC44
+    instructions: [
+      [mov, x1, sp],
+      [mov, w2, 3]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x8CFC5C
+    instructions: [
+      [mov, x26, sp]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x876B14
+    instructions: [
+      [mov, w2, 3]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x8612DC
+    instructions: [
+      [mov, w2, 3]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x876A64
+    instructions: [
+      [mov, w2, 3]
+    ]
+  # Disable transparency for some 2D elements to avoid issues with flickering at triple buffer
+  -
+    type: asm_a64
+    main_offset: 0x7BFB00
+    instructions: [
+      [mov, x9, 0x102],
+      [ldr, w10, [x10, 0x848]],
+      [lsl, x12, x10, 3],
+      [add, x20, x8, 0x828],
+      [str, x9, [x20]]
+    ]
+ALL_FPS:
+  # Interval
+  -
+    type: evaluate_write
+    address: [MAIN, 0xBEBFD8, 0]
+    value_type: int32
+    value: VSYNC_TARGET
+

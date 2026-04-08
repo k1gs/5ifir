@@ -1,0 +1,10 @@
+# Agatha Christie - Hercule Poirot: The First Cases 1.0.3/1.0.3.1
+# BID: 1570FE23108B93C4
+
+ALL_FPS:
+  # fixedDeltaTime
+  -
+    type: evaluate_write
+    address: [MAIN, 0x4B3E500, 0x48]
+    value_type: float
+    value: "FRAMETIME_TARGET / 1000"

@@ -1,0 +1,21 @@
+# Kirby and the Forgotten Land 1.1.0
+# BID: A6CE40DC3AEDB1BE
+# Thanks to Hazerou for finding interval offsets
+
+ALL_FPS:
+  # Interval (Setting it to 0 unlocks framerate and sets dynamic game speed)
+  ## REF: 17 6C 90 52 57 01 A0 72 08 7C 01 A9, first STR above it
+  -
+    type: write
+    address: [MAIN, 0xA76728, 0x50]
+    address_unsafe: true
+    value_type: int32
+    value: 0
+  # Dynamic Resolution GPU Frametiming Max / Min (Max = 1.95 * (30/FPS), Min = 1.7 * (30/FPS))
+  ## REF: 88 F2 80 B9 F3 03 00 AA 1F 05 00 71, last result, first STR above it
+  -
+    type: evaluate_write
+    address: [MAIN, 0xA767B0, 0x140, 0x1B0, 0x20, 0x34]
+    address_unsafe: true
+    value_type: float
+    value: ["(30 / FPS_TARGET) * 1.95", "(30 / FPS_TARGET) * 1.7"]

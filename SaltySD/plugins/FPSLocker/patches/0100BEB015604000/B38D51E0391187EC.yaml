@@ -1,0 +1,42 @@
+# PROJECT ZERO: MAIDEN OF BLACK WATER 1.0.4
+# FATAL FRAME: MAIDEN OF BLACK WATER 1.0.4
+# BID: B38D51E0391187EC
+
+DECLARATIONS:
+  -
+    type: variable
+    name: min_delta
+    value_type: float
+    default_value: 0.0333333333
+    evaluate: "1 / FPS_TARGET"
+  -
+    type: variable
+    name: fps_lock
+    value_type: uint32
+    default_value: 33333333
+    evaluate: "1000000000 / FPS_TARGET"
+MASTER_WRITE:
+  # Redirect min delta
+  # REF: 00 D9 21 7E 28 19 20 1E
+  -
+    type: asm_a64
+    main_offset: 0x39ABF8
+    instructions: [
+      [adrp, x27, $min_delta],
+      [ldr, s8, [x27, $min_delta]]
+    ]
+  # Redirect FPS Lock
+  # REF: 69 AA 40 B9 0A 40 99 52
+  -
+    type: asm_a64
+    main_offset: 0x39B2D8
+    instructions: [
+      [adrp, x9, $fps_lock],
+      [ldr, w9, [x9, $fps_lock]],
+      [nop],
+      [nop]
+    ]
+ALL_FPS:
+  -
+    type: block
+    what: timing

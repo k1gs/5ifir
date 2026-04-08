@@ -1,0 +1,16 @@
+# Xenoblade Chronicles 1.1.2
+# BID: 92C78BB3DCBBC3F7
+
+ALL_FPS:
+  -
+    type: evaluate_write
+    address: [MAIN, 0x13BFDA0]
+    value_type: int32
+    value: [VSYNC_TARGET, VSYNC_TARGET]
+  # UI Speed (mm::mtl::PtrSingleton<layer::LayerManager>::sys(void)::s_instance)
+  -
+    type: evaluate_write
+    address: [MAIN, 0x14016D8, 0x70]
+    address_unsafe: true
+    value_type: float
+    value: "1 / FPS_TARGET"

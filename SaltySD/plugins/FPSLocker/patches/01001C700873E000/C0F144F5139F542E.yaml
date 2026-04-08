@@ -1,0 +1,11 @@
+# GOD EATER 3 2.5.1
+# BID: C0F144F5139F542E
+
+MASTER_WRITE:
+  # Remove double buffer
+  -
+    type: asm_a64
+    main_offset: 0xEA22EC
+    instructions: [
+      [mov, x8, 0x300000003]
+    ]

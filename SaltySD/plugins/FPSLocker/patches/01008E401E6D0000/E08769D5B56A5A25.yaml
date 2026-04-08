@@ -1,0 +1,21 @@
+# The Smurfs - Dreams 1.0.2/1.0.3
+# BID: E08769D5B56A5A25
+
+unsafeCheck: true
+
+ALL_FPS:
+ # r.VSync
+  -
+    type: write
+    address: [MAIN, 0x8321958, 0]
+    value_type: int32
+    value: [0, 0]
+  # t.MaxFPS
+  -
+    type: evaluate_write
+    address: [MAIN, 0x9319260, 0]
+    value_type: float
+    value: [FPS_LOCK_TARGET, FPS_LOCK_TARGET]
+  -
+    type: block
+    what: timing

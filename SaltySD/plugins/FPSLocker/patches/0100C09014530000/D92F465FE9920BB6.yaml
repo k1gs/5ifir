@@ -1,0 +1,22 @@
+# Boomerang X 1.0.2
+# BID: D92F465FE9920BB6
+
+DECLARATIONS:
+  -
+    type: variable
+    name: dr_target
+    value_type: float
+    default_value: 28
+    evaluate: FPS_TARGET
+
+MASTER_WRITE:
+  # Patch `DynamicResolution.Settings$$get_TargetFPS` to redirect reading targetFPS
+  -
+    type: asm_a64
+    main_offset: 0x3821020
+    instructions: [
+      [adrp, x0, $dr_target],
+      [ldr, s0, [x0, $dr_target]],
+      [ret]
+    ]
+

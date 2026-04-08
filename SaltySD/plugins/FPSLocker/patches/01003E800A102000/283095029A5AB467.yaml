@@ -1,0 +1,27 @@
+# Trials Rising 1.0.13
+# BID: 283095029A5AB467
+# Double buffer is reserved line by line inside class array, so requires ton of patching
+
+DECLARATIONS:
+  -
+    type: variable
+    name: dr_target
+    value_type: float
+    default_value: 33.333333
+    evaluate: FRAMETIME_TARGET
+MASTER_WRITE:
+  # Force game to use dynamic speed instead of fixed speed
+  -
+    type: asm_a64
+    main_offset: 0xE7BC90
+    instructions: [
+      [mov, w8, 2]
+    ]
+  # Redirect DR timing
+  -
+    type: asm_a64
+    main_offset: 0xE88250
+    instructions: [
+      [adrp, x8, $dr_target],
+      [ldr, s0, [x8, $dr_target]]
+    ]

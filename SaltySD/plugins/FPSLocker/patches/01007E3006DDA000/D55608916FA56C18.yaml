@@ -1,0 +1,109 @@
+# Kirby Star Allies 4.0.0/4.0.0a
+# BID: D55608916FA56C18
+# Thanks to Kirby567Fan for finding offsets of interval
+
+unsafeCheck: true
+
+MASTER_WRITE:
+  # Remove double buffer
+  -
+    type: asm_a64
+    main_offset: 0x6DBE0
+    instructions: [
+      [mov, w8, 3]
+    ]
+  # Fix helper functions to not corrupt stack
+  -
+    type: asm_a64
+    main_offset: 0x6DC88
+    instructions: [
+      [mov, w2, 3]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x6D85C
+    instructions: [
+      [sub, sp, sp, 0x40],
+      [stp, x20, x19, [sp, 0x20]],
+      [stp, x29, x30, [sp, 0x30]],
+      [add, x29, sp, 0x30]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x6D880
+    instructions: [
+      [mov, w2, 3]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x6D894
+    instructions: [
+      [ldp, x29, x30, [sp, 0x30]],
+      [ldp, x20, x19, [sp, 0x20]],
+      [add, sp, sp, 0x40]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x6D8A4
+    instructions: [
+      [sub, sp, sp, 0x50],
+      [stp, x22, x21, [sp, 0x20]],
+      [stp, x20, x19, [sp, 0x30]],
+      [stp, x29, x30, [sp, 0x40]],
+      [add, x29, sp, 0x40]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x6D8DC
+    instructions: [
+      [mov, w2, 3]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x6D904
+    instructions: [
+      [ldp, x29, x30, [sp, 0x40]],
+      [ldp, x20, x19, [sp, 0x30]],
+      [ldp, x22, x21, [sp, 0x20]],
+      [add, sp, sp, 0x50]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x6D918
+    instructions: [
+      [sub, sp, sp, 0x50],
+      [stp, xzr, x21, [sp, 0x18]],
+      [stp, x20, x19, [sp, 0x30]],
+      [stp, x29, x30, [sp, 0x40]],
+      [add, x29, sp, 0x40]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x6D940
+    instructions: [
+      [mov, w2, 3]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x6D984
+    instructions: [
+      [ldp, x29, x30, [sp, 0x40]],
+      [ldr, x21, [sp, 0x20]],
+      [ldp, x20, x19, [sp, 0x30]],
+      [add, sp, sp, 0x50]
+    ]
+  # Block updating interval
+  -
+    type: asm_a64
+    main_offset: 0x5A4C
+    instructions: [
+      [nop]
+    ]
+ALL_FPS:
+  # Interval
+  -
+    type: evaluate_write
+    address: [MAIN, 0x54C5B0, 0]
+    value_type: int32
+    value: "VSYNC_TARGET - 1"
+

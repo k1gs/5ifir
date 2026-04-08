@@ -1,0 +1,21 @@
+# Life is Strange 2 1.1.0
+# BID: BF0088C59D7E97C0
+
+unsafeCheck: true
+
+ALL_FPS:
+  # t.MaxFPS
+  -
+    type: evaluate_write
+    address: [MAIN, 0x8082C68, 0]
+    value_type: float
+    value: [FPS_LOCK_TARGET, FPS_LOCK_TARGET]
+  # r.VSync
+  -
+    type: write
+    address: [MAIN, 0x78412B0, 0]
+    value_type: uint32
+    value: [0, 0]
+  -
+    type: block
+    what: timing

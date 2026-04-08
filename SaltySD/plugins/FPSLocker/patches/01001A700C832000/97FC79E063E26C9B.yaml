@@ -1,0 +1,11 @@
+# Fate/EXTELLA LINK 1.0.2
+# BID: 97FC79E063E26C9B
+
+MASTER_WRITE:
+  # Remove double buffer
+  -
+    type: asm_a64
+    main_offset: 0x6B41E4
+    instructions: [
+      [mov, x8, 0x300000003]
+    ]

@@ -1,0 +1,95 @@
+# The Legend of Heroes: Trails into Reverie 1.0.4
+# BID: 7735C8DD89D145F2
+# "Beyond the Reverie" dream has broken text fade effects above 30 FPS. 
+
+DECLARATIONS:
+  -
+    type: const
+    name: tick_frequency
+    value: 19200000
+  -
+    type: variable
+    name: last_tick
+    value_type: uint64
+    default_value: 0
+  - 
+    type: variable
+    name: actual_frametime
+    value_type: float
+    default_value: 0.033333333333
+  -
+    type: variable
+    name: min_delta
+    value_type: float
+    default_value: 0.033333333333
+    evaluate: "1/FPS_TARGET"
+  -
+    type: code
+    name: dynamicSpeed
+    instructions: [
+      [adrp, x9, $min_delta],
+      [ldr, s1, [x9, $min_delta]],
+      [fmov, s3, 1.0],
+      [fmov, s2, 15.0],
+      [fdiv, s2, s3, s2],
+      [mrs, x8, cntpct_el0],
+      [adrp, x9, $last_tick],
+      [ldr, x10, [x9, $last_tick]],
+      [str, x8, [x9, $last_tick]],
+      [cmp, x10, xzr],
+      [b.eq, :goto3],
+      [sub, x10, x8, x10],
+      [ucvtf, s3, x10],
+      [mov, w9, $tick_frequency],
+      [movk, w9, $tick_frequency, 16],
+      [ucvtf, s4, w9],
+      [fdiv, s4, s3, s4],
+      [fcmp, s4, s1],
+      [b.hi, :goto1],
+      [fmov, s4, s1],
+      [b, :goto2],
+      :goto1, [fcmp, s4, s2],
+      [b.lt, :goto2],
+      [fmov, s4, s2],
+      :goto2, [adrp, x9, $actual_frametime],
+      [str, s4, [x9, $actual_frametime]],
+      :goto3, [mov, w8, 0x1af0],
+      [ret]
+    ]
+MASTER_WRITE:
+  # Force FPS lock to 120
+  -
+    type: asm_a64
+    main_offset: 0x81AB0
+    instructions: [
+      [movk, w8, 0x3c08, 16]
+    ]
+  # Force refreshing camera to 120 Hz
+  -
+    type: asm_a64
+    main_offset: 0x81AE4
+    instructions: [
+      [movk, w9, 0x3c08, 16]
+    ]
+  # Properly scale frametime for FPS drops
+  -
+    type: asm_a64
+    main_offset: 0x81AEC
+    instructions: [
+      [movk, w10, 0xbc08, 16]
+    ]
+# Read actual frametime instead of hardcoded 1/30
+  -
+    type: asm_a64
+    main_offset: 0x8192C
+    instructions: [
+      [bl, _dynamicSpeed()]
+    ]
+  # Read actual frametime as float in seconds
+  -
+    type: asm_a64
+    main_offset: 0x81B50
+    instructions: [
+      [adrp, x11, $actual_frametime],
+      [ldr, w11, [x11, $actual_frametime]]
+    ]

@@ -1,0 +1,120 @@
+# Crysis 2 Remastered 1.3.0
+# BID: B3967105033ACC08
+
+DECLARATIONS:
+  -
+    type: variable
+    name: dr_target1
+    value_type: float
+    default_value: 31.5
+    evaluate: "0.945 * FRAMETIME_TARGET"
+  -
+    type: variable
+    name: dr_target2
+    value_type: float
+    default_value: 32.5
+    evaluate: "0.975 * FRAMETIME_TARGET"
+  # DON'T PUT ANYTHING BETWEEN - START
+  -
+    type: variable
+    name: dr_target3
+    value_type: float
+    default_value: 33
+    evaluate: "0.99 * FRAMETIME_TARGET"
+  -
+    type: variable
+    name: dr_target4
+    value_type: float
+    default_value: 35
+    evaluate: "0.99 * FRAMETIME_TARGET"
+  # DON'T PUT ANYTHING BETWEEN - END
+  # DON'T PUT ANYTHING BETWEEN - START
+  -
+    type: variable
+    name: dr_target5
+    value_type: float
+    default_value: 32
+    evaluate: "0.96 * FRAMETIME_TARGET"
+  -
+    type: variable
+    name: dr_target6
+    value_type: float
+    default_value: 33.5
+    evaluate: "0.96 * FRAMETIME_TARGET"
+  # DON'T PUT ANYTHING BETWEEN - END
+  # DON'T PUT ANYTHING BETWEEN - START
+  -
+    type: variable
+    name: dr_target7
+    value_type: float
+    default_value: 28.75
+    evaluate: "0.8625 * FRAMETIME_TARGET"
+  -
+    type: variable
+    name: dr_target8
+    value_type: float
+    default_value: 29.75
+    evaluate: "0.8625 * FRAMETIME_TARGET"
+  # DON'T PUT ANYTHING BETWEEN - END
+MASTER_WRITE:
+  # Redirect Dynamic Resolution Timings to read always not from .text
+  -
+    type: asm_a64
+    main_offset: 0x2EE9A90
+    instructions: [
+      [fmov, s0, s1]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x2EE9AA8
+    instructions: [
+      [fcsel, s2, s2, s2, ne]
+    ]
+# Redirect Dynamic Resolution Timings readings to MAIN+0x453B300
+  -
+    type: asm_a64
+    main_offset: 0x2EE9A38
+    instructions: [
+      [adrp, x11, $dr_target1]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x2EE9A40
+    instructions: [
+      [adrp, x12, $dr_target2],
+      [ldr, s1, [x11, $dr_target1]],
+      [ldr, s2, [x12, $dr_target2]]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x2EE9A50
+    instructions: [
+      [adrp, x13, $dr_target3],
+      [add, x13, x13, $dr_target3]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x2EE9A7C
+    instructions: [
+      [adrp, x9, $dr_target5],
+      [add, x9, x9, $dr_target5],
+      [adrp, x11, $dr_target7],
+      [add, x11, x11, $dr_target7]
+    ]
+ALL_FPS:
+  # sys_MaxFPS
+  -
+    type: evaluate_write
+    address: [MAIN, 0x43E0B14]
+    value_type: int32
+    value: FPS_LOCK_TARGET
+  # Renderer thread delay
+  -
+    type: evaluate_write
+    address: [MAIN, 0x444A0D8]
+    value_type: float
+    value: "0.66 / FPS_TARGET"
+  -
+    type: block
+    what: timing
+

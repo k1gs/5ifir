@@ -1,0 +1,13 @@
+# The Great Ace Attorney Chronicles 1.0.0
+# BID: 1DA748FC9499882F
+
+ALL_FPS:
+  # FPS lock
+  -
+    type: evaluate_write
+    address: [MAIN, 0xCF90F8, 0x4C]
+    value_type: float
+    value: FPS_LOCK_TARGET
+  -
+    type: block
+    what: timing

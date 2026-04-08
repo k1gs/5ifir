@@ -1,0 +1,40 @@
+# Astral Chain 1.0.1
+# BID: 4B159F0F7A360669
+# Thanks to MrComputerRevo for figuring out where is minimal game speed
+
+unsafeCheck: true
+
+MASTER_WRITE:
+  # Change minimal game speed to half of default value
+  -
+    type: asm_a64
+    main_offset: 0x91DC94
+    instructions: [
+      [fmov, s1, 0.5]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x91DCA0
+    instructions: [
+      [fmov, s1, 0.5]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x91DCAC
+    instructions: [
+      [mov, w8, 0x3f000000]
+    ]
+  # Block cutscenes from having speed fixed to 30 FPS
+  -
+    type: asm_a64
+    main_offset: 0x91DC10
+    instructions: [
+      [nop]
+    ]
+ALL_FPS:
+  -
+    type: evaluate_write
+    address: [MAIN, 0xCCB7AF0, 0x420]
+    value_type: uint32
+    value: "VSYNC_TARGET - 1"
+

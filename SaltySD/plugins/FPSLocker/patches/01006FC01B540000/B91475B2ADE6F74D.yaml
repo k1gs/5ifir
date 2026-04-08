@@ -1,0 +1,19 @@
+# Hot Blood 1.0.1
+# BID: B91475B2ADE6F74D
+
+ALL_FPS:
+  # r.DynamicRes.FrameTimeBudget (Default is 36)
+  -
+    type: evaluate_write
+    address: [MAIN, 0x5CB4658, 0]
+    value_type: float
+    value: ["TruncDec(FRAMETIME_TARGET, 2)", "TruncDec(FRAMETIME_TARGET, 2)"]
+  # t.MaxFPS
+  -
+    type: evaluate_write
+    address: [MAIN, 0x5CE23A8, 0]
+    value_type: float
+    value: [FPS_LOCK_TARGET, FPS_LOCK_TARGET]
+  -
+    type: block
+    what: timing

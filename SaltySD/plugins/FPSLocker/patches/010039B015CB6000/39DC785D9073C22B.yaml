@@ -1,0 +1,48 @@
+# Eiyuden Chronicle: Rising 1.02
+# BID: 39DC785D9073C22B
+
+DECLARATIONS:
+  -
+    type: variable
+    name: dr_target1
+    value_type: double
+    default_value: 31
+    evaluate: "0.93 * FRAMETIME_TARGET"
+  -
+    type: variable
+    name: dr_target2
+    value_type: double
+    default_value: 29
+    evaluate: "0.87 * FRAMETIME_TARGET"
+  -
+    type: code
+    name: drMaxTarget
+    instructions: [
+      [adrp, x19, $dr_target1],
+      [ldr, d1, [x19, $dr_target1]],
+      [ret]
+    ]
+  -
+    type: code
+    name: drMinTarget
+    instructions: [
+      [adrp, x8, $dr_target2],
+      [ldr, d1, [x8, $dr_target2]],
+      [ret]
+    ]
+MASTER_WRITE:
+  # Redirect DynamicResolution$$LowerResSW Max Target in MS
+  -
+    type: asm_a64
+    main_offset: 0x2426988
+    instructions: [
+      [bl, _drMaxTarget()]
+    ]
+  # Redirect DynamicResolution$$LowerResSW Min Target
+  -
+    type: asm_a64
+    main_offset: 0x24269F4
+    instructions: [
+      [bl, _drMinTarget()]
+    ]
+

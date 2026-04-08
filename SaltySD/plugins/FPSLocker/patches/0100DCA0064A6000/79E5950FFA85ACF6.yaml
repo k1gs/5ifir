@@ -1,0 +1,29 @@
+# Luigi's Mansion 3 1.4.0
+# BID: 79E5950FFA85ACF6
+# Credits for finding FPS Lock goes to theboy181
+
+DECLARATIONS:
+  -
+    type: variable
+    name: fps_target
+    value_type: float
+    default_value: 33.333333
+    evaluate: "1000 / FPS_LOCK_TARGET"
+MASTER_WRITE:
+  # Redirect reading FPS Lock to MAIN+0x1D164DC
+  -
+    type: asm_a64
+    main_offset: 0x7A3E9C
+    instructions: [
+      [adrp, x12, $fps_target]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x7A3EA8
+    instructions: [
+      [ldr, s0, [x12, $fps_target]]
+    ]
+ALL_FPS:
+  -
+    type: block
+    what: timing

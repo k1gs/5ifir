@@ -1,0 +1,17 @@
+# LA Noire 1.2
+# BID: 40F973CE3B5EC8D7
+
+ALL_FPS:
+  # Game speed
+  -
+    type: evaluate_write
+    address: [MAIN, 0x1A32900, 0xA0]
+    address_unsafe: true
+    value_type: float
+    value: "(FPS_TARGET * 2) / 1.001"
+  # Frameskipping (otherwise you will get slowdowns at framedrops)
+  -
+    type: write
+    address: [MAIN, 0x1A5BE70]
+    value_type: int8
+    value: 1

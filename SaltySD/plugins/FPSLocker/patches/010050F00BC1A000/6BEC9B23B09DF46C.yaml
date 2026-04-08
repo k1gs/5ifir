@@ -1,0 +1,56 @@
+# Resident Evil 1.0.0
+# BID: 6BEC9B23B09DF46C
+
+DECLARATIONS:
+  -
+    type: variable
+    name: cutscene_flag
+    value_type: uint32
+    default_value: 0
+  -
+    type: code
+    name: signalCutscene
+    instructions: [
+      [add, x29, sp, 0x10],
+      [mov, w1, 1],
+      [adrp, x19, $cutscene_flag],
+      [str, w1, [x19, $cutscene_flag]],
+      [ret]
+    ]
+  -
+    type: code
+    name: designalCutscene
+    instructions: [
+      [adrp, x1, $cutscene_flag],
+      [str, wzr, [x1, $cutscene_flag]],
+      [ret]
+    ]
+MASTER_WRITE:
+  # Detect prerendered cutscenes
+  -
+    type: asm_a64
+    main_offset: 0xB1A818
+    instructions: [
+      [bl, _signalCutscene()]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0xB1A9BC
+    instructions: [
+      [b, _designalCutscene()]
+    ]
+ALL_FPS:
+  # Internal FPS Lock
+  -
+    type: evaluate_write
+    address: [MAIN, 0x1EC6CF0, 0x4C]
+    value_type: float
+    value: "FPS_LOCK_TARGET"
+  -
+    type: compare
+    compare_type: "=="
+    compare_value: 1
+    compare_address: [VARIABLE, cutscene_flag]
+    value_type: refresh_rate
+    value: 30
+

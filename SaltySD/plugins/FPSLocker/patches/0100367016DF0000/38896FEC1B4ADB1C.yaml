@@ -1,0 +1,23 @@
+# Hammerwatch 2 1.0.4
+# BID: 38896FEC1B4ADB1C
+
+MASTER_WRITE:
+  # Rewrite "v_fps_limit 30" to 99
+  -
+    type: bytes
+    main_offset: 0x7C7597
+    value_type: uint16
+    value: 0x3939
+  # Change egl Interval to lock game by default to 30 FPS
+  -
+    type: asm_a64
+    main_offset: 0x135D10
+    instructions: [
+      [mov, w1, 2]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x135D38
+    instructions: [
+      [mov, w1, 2]
+    ]

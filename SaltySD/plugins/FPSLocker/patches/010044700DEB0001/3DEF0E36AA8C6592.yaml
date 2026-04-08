@@ -1,0 +1,22 @@
+# Assassin's Creed The Rebel Collection - Assassin's Creed Rogue 1.0.0
+# BID: 3DEF0E36AA8C6592
+
+DECLARATIONS:
+  -
+    type: variable
+    name: dr_scale
+    value_type: float
+    default_value: 1000
+    evaluate: "30000 / FPS_TARGET"
+
+MASTER_WRITE:
+# Patch code to divide last frametime by float scale factor
+# To match it to Dynamic Resolution calculations
+  -
+    type: asm_a64
+    main_offset: 0x9F1DDC
+    instructions: [
+      [adrp, x8, $dr_scale],
+      [ldr, s1, [x8, $dr_scale]]
+    ]
+

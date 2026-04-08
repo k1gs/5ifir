@@ -1,0 +1,33 @@
+# Neptunia: Sisters VS Sisters 1.0.0
+# BID: 3565E26E8827C846
+
+DECLARATIONS:
+  -
+    type: variable
+    name: dr_target1
+    value_type: float
+    default_value: 33.33
+    evaluate: "TruncDec(FRAMETIME_TARGET, 2)"
+  -
+    type: variable
+    name: dr_target2
+    value_type: float
+    default_value: 28.57
+    evaluate: "TruncDec(1000 / (FPS_TARGET + 5), 2)"
+MASTER_WRITE:
+  # Redirect DR timing range
+  -
+    type: asm_a64
+    main_offset: 0x3DC5E90
+    instructions: [
+      [adrp, x8, $dr_target1],
+      [ldr, w8, [x8, $dr_target1]]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x3DC5EFC
+    instructions: [
+      [adrp, x8, $dr_target2],
+      [ldr, w8, [x8, $dr_target2]]
+    ]
+

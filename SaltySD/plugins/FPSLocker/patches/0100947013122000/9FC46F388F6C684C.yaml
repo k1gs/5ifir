@@ -1,0 +1,12 @@
+# Ruined King: A League of Legends Story 1.7
+# BID: 9FC46F388F6C684C
+
+unsafeCheck: true
+
+#TODO: Patch DR FPS targets directly, for now -1 = 30 FPS, 0 = 60 FPS
+ALL_FPS:
+  -
+    type: evaluate_write
+    address: [MAIN, 0x5B18318, 0x944]
+    value_type: int32
+    value: "(VSYNC_TARGET * -1) + 1"

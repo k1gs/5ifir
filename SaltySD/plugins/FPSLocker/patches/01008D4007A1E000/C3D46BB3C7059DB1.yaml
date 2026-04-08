@@ -1,0 +1,29 @@
+# Outlast 1.0.1
+# BID: C3D46BB3C7059DB1
+
+MASTER_WRITE:
+  # Remove double buffer
+  -
+    type: asm_a64
+    main_offset: 0xB52C64
+    instructions: [
+      [cmp, x28, 0x18]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0xB52CD0
+    instructions: [
+      [mov, w1, 3]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0xB529A8
+    instructions: [
+      [cmp, x28, 0x18]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0xB52A14
+    instructions: [
+      [mov, w1, 3]
+    ]

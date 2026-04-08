@@ -1,0 +1,75 @@
+# Endless Ocean Luminous 1.0.1
+# BID: E5EFB5ABA3601B97
+# Some things are still tied to framerate, but nothing game breaking it seems.
+# Game is using double buffer, trying to enable triple buffer results in crash.
+
+DECLARATIONS:
+  -
+    type: variable
+    name: dr_target
+    value_type: float
+    default_value: 0.0333333333
+    evaluate: "1/FPS_TARGET"
+MASTER_WRITE:
+  # Swap 30 FPS target with 60
+  -
+    type: bytes
+    main_offset: 0x15C140E
+    value_type: uint8
+    value: 0x33
+  -
+    type: bytes
+    main_offset: 0x162E1B2
+    value_type: uint8
+    value: 0x36
+  # Allow variable game speed instead of fixed
+  -
+    type: asm_a64
+    main_offset: 0x36D880
+    instructions: [
+      [adrp, x8, 0x15d0000],
+      [add, x8, x8, 0x80c]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x36D88C
+    instructions: [
+      [mov, w9, 0x16]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x36D894
+    instructions: [
+      [adrp, x8, 0x15cd000],
+      [add, x8, x8, 0x109]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x36D89C
+    instructions: [
+      [mov, w9, 0x13]
+    ]
+  # Force interval to 2 to maintain original 30 FPS lock by default
+  -
+    type: asm_a64
+    main_offset: 0x92BB84
+    instructions: [
+      [mov, w21, 2]
+    ]
+  # Redirect DR timing target
+  -
+    type: asm_a64
+    main_offset: 0xA38B18
+    instructions: [
+      [adrp, x1, $dr_target],
+      [ldr, s0, [x1, $dr_target]]
+    ]
+ALL_FPS:
+  # vsync target
+  -
+    type: evaluate_write
+    address: [MAIN, 0x1C49DD0, 0x39E0]
+    value_type: uint32
+    value: "VSYNC_TARGET - 1"
+
+

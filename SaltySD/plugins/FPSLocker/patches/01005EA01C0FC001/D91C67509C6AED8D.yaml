@@ -1,0 +1,20 @@
+# SONIC GENERATIONS 1.0.1/1.1.0
+# BID: D91C67509C6AED8D
+
+MASTER_WRITE:
+  # NOP internal FPS Lock
+  # REF: 00 00 23 1E E1 02 27 1E 00 08 21 1E
+  -
+    type: asm_a64
+    main_offset: 0x7E4AA4
+    instructions: [
+      [nop]
+    ]
+  # Set window present interval to 2 to get default 30 FPS lock
+  # REF: 34 14 9F 1A
+  -
+    type: asm_a64
+    main_offset: 0x22FCB88
+    instructions: [
+      [mov, w20, 2]
+    ]

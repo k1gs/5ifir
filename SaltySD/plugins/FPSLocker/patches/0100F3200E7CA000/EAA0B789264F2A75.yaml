@@ -1,0 +1,43 @@
+# The Settlers: New Allies 1.0.7
+# BID: EAA0B789264F2A75
+
+DECLARATIONS:
+  -
+    type: variable
+    name: fps_lock
+    value_type: float
+    default_value: 30
+    evaluate: FPS_LOCK_TARGET
+  -
+    type: variable
+    name: frametime_target
+    value_type: float
+    default_value: 0.0333333333
+    evaluate: "1 / FPS_TARGET"
+  -
+    type: code
+    name: readVariables
+    instructions: [
+      [adrp, x8, $fps_lock],
+      [ldr, s0, [x8, $fps_lock]],
+      [adrp, x8, $frametime_target],
+      [ldr, s8, [x8, $frametime_target]],
+      [ret]
+    ]    
+MASTER_WRITE:
+  # Redirect FPS Lock to fps_lock, frametime and DR target to frametime_target
+  # REF: 08 14 40 BD 00 10 2E 1E 00 18 28 1E
+  -
+    type: asm_a64
+    main_offset: 0x36A400
+    instructions: [
+      [bl, _readVariables()]
+    ]
+  # REF: 00 14 40 BD 09 10 2E 1E (1 instruction before that)
+  -
+    type: asm_a64
+    main_offset: 0x34A0EB4
+    instructions: [
+      [adrp, x0, $frametime_target],
+      [ldr, s0, [x0, $frametime_target]]
+    ]

@@ -1,0 +1,53 @@
+# The Legend of Heroes: Trails of Cold Steel III 1.0.1
+# BID: 134EC3D8BE75126F
+# Button polling is 2x more sensitive to holding any button at 60 FPS
+# Fishing timer is decreasing 2x faster at 60 FPS
+# Bike is turning 2x faster at 60 FPS
+
+DECLARATIONS:
+  -
+    type: variable
+    name: fps_lock
+    value_type: uint32
+    default_value: 33333333
+    evaluate: "FRAMETIME_TARGET * 930000"
+  -
+    type: variable
+    name: frame_time
+    value_type: float
+    default_value: 0.0333333333
+  -
+    type: code
+    name: dynamicSpeed
+    instructions: [
+      [str, d0, [x8, 0x20]],
+      [fcvt, s4, d0],
+      [adrp, x8, $frame_time],
+      [str, s4, [x8, $frame_time]],
+      [ret]
+    ]
+MASTER_WRITE:
+  # Move loading FPS lock time
+  -
+    type: asm_a64
+    main_offset: 0x511818
+    instructions: [
+      [adrp, x9, $fps_lock],
+      [ldr, w9, [x9, $fps_lock]]
+    ]
+  # Write game's loop time as float
+  -
+    type: asm_a64
+    main_offset: 0x511884
+    instructions: [
+      [bl, _dynamicSpeed()]
+    ]
+  - # Read lowest timing float factor
+    type: asm_a64
+    main_offset: 0x5E5EC
+    instructions: [
+      [adrp, x8, $frame_time],
+      [fminnm, s1, s1, s2],
+      [ldr, s2, [x8, $frame_time]]
+    ]
+

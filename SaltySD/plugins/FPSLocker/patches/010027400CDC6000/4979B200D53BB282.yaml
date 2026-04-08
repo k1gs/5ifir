@@ -1,0 +1,22 @@
+# Divinity Original Sin 2 1.0.10-1.0.11
+# BID: 4979B200D53BB282
+# Game is using double buffer, buffers are not allocated in loop.
+# So it's not possible to get stable FPS lock between 30 and 60 without changing refresh rate.
+
+DECLARATIONS:
+  -
+    type: variable
+    name: dr_scale
+    value_type: double
+    default_value: 1000000
+    evaluate: "30000000 / FPS_TARGET"
+
+MASTER_WRITE:
+  # Change location of GPU frametime double divider
+  -
+    type: asm_a64
+    main_offset: 0x921768
+    instructions: [
+      [adrp, x8, $dr_scale],
+      [ldr, d1, [x8, $dr_scale]]
+    ]

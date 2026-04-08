@@ -1,0 +1,28 @@
+# Contra: Operation Galuga 1.0.882291
+# BID: 5ECFB8F85105FE3C
+
+DECLARATIONS:
+  -
+    type: variable
+    name: dr_target
+    value_type: float
+    default_value: 33.333333
+    evaluate: FRAMETIME_TARGET
+  -
+    type: code
+    name: drAdjust
+    instructions: [
+      [adrp, x8, $dr_target],
+      [ldr, s0, [x8, $dr_target]],
+      [str, s0, [x19, 0x3c]],
+      [ret]
+    ]
+    
+MASTER_WRITE:
+  # Redirect DR Timing target to MAIN + 0x6D91A00, REF: 61 36 40 BD 60 3E 40 BD
+  -
+    type: asm_a64
+    main_offset: 0x3534598
+    instructions: [
+      [bl, _drAdjust()]
+    ]

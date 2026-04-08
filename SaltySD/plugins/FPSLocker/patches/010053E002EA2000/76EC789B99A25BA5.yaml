@@ -1,0 +1,12 @@
+# FATE/EXTELLA 1.0.0
+# BID: 76EC789B99A25BA5
+# REF: aql::GraphicsContext::initialize
+
+MASTER_WRITE:
+  # Remove double buffer
+  -
+    type: asm_a64
+    main_offset: 0x55DFDC
+    instructions: [
+      [mov, x8, 3]
+    ]

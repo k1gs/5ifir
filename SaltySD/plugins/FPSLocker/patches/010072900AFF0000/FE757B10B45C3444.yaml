@@ -1,0 +1,76 @@
+# Gear.Club Unlimited 2 1.7.2
+# BID: FE757B10B45C3444
+
+DECLARATIONS:
+  -
+    type: variable
+    name: vsync_target
+    value_type: uint32
+    default_value: 2
+    evaluate: VSYNC_TARGET
+  -
+    type: variable
+    name: dr_target
+    value_type: float
+    default_value: 33
+    evaluate: "1.1 * FPS_TARGET"
+  -
+    type: code
+    name: getVsyncTarget
+    instructions: [
+      [adrp, x0, $vsync_target],
+      [ldr, w0, [x0, $vsync_target]],
+      [mov, w19, w0],
+      [ret]
+    ]
+  -
+    type: code
+    name: getDrTarget
+    instructions: [
+      [adrp, x0, $dr_target],
+      [ldr, s0, [x0, $dr_target]],
+      [ret]
+    ]
+MASTER_WRITE:
+# Edit Eden.Graphics.IGraphicsQualityProfile::set_VSyncCount
+# If not edited, light is flickering at > 30 FPS
+  -
+    type: asm_a64
+    main_offset: 0x14B4990
+    instructions: [
+      [adrp, x1, $vsync_target],
+      [ldr, w1, [x1, $vsync_target]],
+      [str, w1, [x0, 0x54]],
+      [ret]
+    ]
+# Edit UnityEngine.QualitySettings::set_vSyncCount
+# If not edited, light is flickering at > 30 FPS
+  -
+    type: asm_a64
+    main_offset: 0x1B46EE4
+    instructions: [
+      [adrp, x0, $vsync_target],
+      [ldr, w0, [x0, $vsync_target]],
+      [ldp, x29, x30, [sp, 0x20]],
+      [ldp, x20, x19, [sp, 0x10]],
+      [add, sp, sp, 0x30],
+      [br, x1]
+    ]
+# Edit Eden.Graphics.GraphicsQualityManager::SetTargetFrameRate
+# If not edited, it locks to 30 FPS
+  -
+    type: asm_a64
+    main_offset: 0x14AB578
+    instructions: [
+      [bl, _getVsyncTarget()]
+    ]
+# Edit Eden.Graphics.DynamicResolutionScaler::UpdateScaling
+# If not edited, performance is much worse at > 30 FPS
+  -
+    type: asm_a64
+    main_offset: 0x14988BC
+    instructions: [
+      [bl, _getDrTarget()]
+    ]
+
+

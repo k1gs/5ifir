@@ -1,0 +1,62 @@
+# SAMURAI WARRIORS 5 1.03
+# BID: 810CBA3D7DB83EC0
+
+unsafeCheck: true
+
+# Block updating FPS Lock
+MASTER_WRITE:
+  -
+    type: asm_a64
+    main_offset: 0x1240DFC
+    instructions: [
+      [nop]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x1240E10
+    instructions: [
+      [nop]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x1240E1C
+    instructions: [
+      [nop]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x1240E24
+    instructions: [
+      [nop]
+    ]
+  -
+    type: asm_a64
+    main_offset: 0x1240E2C
+    instructions: [
+      [ldr, s0, [x8, 0x1f0]]
+    ]
+ALL_FPS:
+  -
+    type: evaluate_write
+    address: [MAIN, 0x1E761E0]
+    value_type: int32
+    value: VSYNC_TARGET
+  -
+    type: evaluate_write
+    address: [MAIN, 0x1E761E4]
+    value_type: float
+    value: FPS_TARGET
+  -
+    type: evaluate_write
+    address: [MAIN, 0x1E761E8]
+    value_type: int32
+    value: [VSYNC_TARGET, FPS_LOCK_TARGET]
+  -
+    type: evaluate_write
+    address: [MAIN, 0x1E761F0]
+    value_type: float
+    value: FPS_TARGET
+  -
+    type: block
+    what: timing
+
